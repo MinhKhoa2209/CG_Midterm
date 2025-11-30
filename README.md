@@ -59,12 +59,4 @@ mingw32-make
     - Marker camera (vòng tròn xanh), mũi tên chỉ hướng camera, khung minimap rõ ràng.
 - **Hiển thị Wireframe:** thấy cấu trúc mesh và từng tam giác tạo nên địa hình.
 
-## 6. Ý tưởng mở rộng & teamwork
-- Chia module theo chức năng (Math3D, Terrain, Camera...) → Dễ teamwork.
-- Có thể tách các thuật toán (Bresenham, Cohen-Sutherland) sang file riêng để thử nghiệm nhiều kiểu minimap/UI hoặc nâng cấp vẽ đường đi, hiển thị vật thể phụ trợ…
-- Mỗi feature chọn lệnh rõ ràng (F, P, IJKLUO), code dễ mở rộng cho các mode nâng cao về sau.
 
----
-**Sinh viên: [Điền tên nhóm hoặc thành viên tại đây]**
-
-Liên hệ & đóng góp: [Điền github/email nếu muốn]
