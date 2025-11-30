@@ -1,0 +1,38 @@
+==================================================
+TÓM TẮT ĐỀ TÀI: 3D TERRAIN EXPLORER
+==================================================
+
+I. MÔ HÌNH HÓA & CẤU TRÚC DỮ LIỆU
+--------------------------------------------------
+* [cite_start]Tên Mô hình: Polygon Mesh Model (Mô hình mặt đa giác)[cite: 3723, 4583].
+* [cite_start]Dữ liệu cơ sở: Sử dụng mảng 2D heightMap[ROWS][COLS] (Giá trị độ cao Y)[cite: 3721].
+* [cite_start]Cấu trúc lưu trữ: Danh sách Đỉnh (Vertex List) và Danh sách Mặt (Face List/Indices)[cite: 3724, 4584, 4585].
+* [cite_start]Đơn vị cơ sở: Mỗi ô lưới 2D được chia thành 2 Tam giác để tạo thành bề mặt kín[cite: 3725].
+
+II. CHỨC NĂNG RENDER & QUAN SÁT (3D)
+--------------------------------------------------
+* [cite_start]**Render Pipeline:** Chuyển đổi tọa độ WCS (Thế giới) -> VCS (Quan sát) -> DCS (Thiết bị)[cite: 3731].
+* **Phép chiếu (Projection):**
+    * [cite_start]Áp dụng **Phép chiếu Phối cảnh (Perspective Projection)** để tạo cảm giác chiều sâu (vật xa thì nhỏ)[cite: 3732].
+    * [cite_start]Kỹ thuật: Tính toán ma trận Perspective thủ công[cite: 3733].
+* **Camera & Điều khiển (Viewing/Transformation):**
+    * [cite_start]**Ma trận View (VCS):** Xây dựng ma trận View/LookAt thủ công (không dùng hàm built-in)[cite: 3741, 3742].
+    * [cite_start]**Tịnh tiến (Translation):** Điều khiển di chuyển camera (W/S/A/D)[cite: 3737, 3741].
+    * [cite_start]**Quay (Rotation):** Điều khiển góc nhìn (ngước lên/xuống, quay ngang) bằng chuột[cite: 3738, 3741].
+    * [cite_start]**Hệ tọa độ:** Xử lý hệ tọa độ quan sát theo quy tắc bàn tay trái/phải[cite: 3743].
+
+III. CHIẾU SÁNG & XỬ LÝ ẨN/KHUẤT
+--------------------------------------------------
+* [cite_start]**Nguồn sáng:** Hỗ trợ **nguồn sáng điểm (Point Light)** di chuyển được (Mặt trời)[cite: 3747].
+* [cite_start]**Pháp tuyến (Normal Vector):** Tính toán Vector pháp tuyến cho từng mặt tam giác (sử dụng Tích có hướng) và trung bình cộng pháp tuyến cho từng đỉnh[cite: 3748, 3749].
+* [cite_start]**Mô hình Chiếu sáng:** Cài đặt mô hình chiếu sáng **Lambert** (độ nhám) hoặc **Phong** (độ bóng)[cite: 3750].
+* [cite_start]**Tô bóng (Shading):** Áp dụng kỹ thuật **Tô bóng Gouraud** (nội suy cường độ sáng từ đỉnh vào trong tam giác) để bề mặt núi trông mịn màng[cite: 3751].
+* **Xử lý Bề mặt Khuất (Visibility):**
+    * **Back-face Culling:** Không vẽ các mặt quay lưng (Back-face) để tối ưu hiệu năng. [cite_start]Kiểm tra tích vô hướng giữa vector nhìn và pháp tuyến mặt ($\vec{V} \cdot \vec{N} \ge 0$)[cite: 3755, 3756].
+    * [cite_start]**Z-Buffer (Depth Buffer):** Sử dụng thuật toán Z-buffer để xử lý việc vật thể gần che vật thể xa tại từng pixel[cite: 3758].
+
+IV. TÍNH NĂNG MINIMAP (2D UI)
+--------------------------------------------------
+* [cite_start]**Phép chiếu 2D:** Sử dụng **Phép chiếu Trực giao (Orthographic Projection)** (bỏ thành phần Z) để vẽ bản đồ phẳng từ trên xuống[cite: 3763].
+* **Vẽ Đường đi:** Vẽ đường đi của camera trên Minimap. [cite_start]Áp dụng thuật toán **Vẽ đoạn thẳng Bresenham** hoặc **Midpoint** để tính toán các điểm ảnh 2D[cite: 3764].
+* **Xén hình (Clipping):** Giới hạn đường đi trong khung Minimap. [cite_start]Áp dụng thuật toán **Xén hình Cohen-Sutherland** để cắt bỏ các phần đường đi nằm ngoài khung[cite: 3765].
