@@ -6,7 +6,7 @@
 
 const float PI = 3.14159265359f;
 
-// [CG.1, CG.4] Vector cơ bản
+//  Vector cơ bản
 struct Vec3 {
     float x, y, z;
     Vec3() : x(0), y(0), z(0) {}
@@ -16,10 +16,10 @@ struct Vec3 {
     Vec3 operator-(const Vec3& v) const { return Vec3(x - v.x, y - v.y, z - v.z); }
     Vec3 operator*(float s) const { return Vec3(x * s, y * s, z * s); }
     
-    // Tích vô hướng (Dot product) - [CG.6 - Slide 24] dùng cho chiếu sáng
+    // Tích vô hướng (Dot product) -  dùng cho chiếu sáng
     float dot(const Vec3& v) const { return x * v.x + y * v.y + z * v.z; }
 
-    // Tích có hướng (Cross product) - [CG.6 - Slide 8] dùng tính pháp tuyến
+    // Tích có hướng (Cross product) - dùng tính pháp tuyến
     Vec3 cross(const Vec3& v) const {
         return Vec3(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
     }
@@ -34,7 +34,7 @@ struct Vec3 {
 
 struct Vec4 { float x, y, z, w; };
 
-// [CG.4] Ma trận 4x4 cho biến đổi Affine
+//  Ma trận 4x4 cho biến đổi Affine
 struct Mat4 {
     float m[4][4];
 
@@ -43,7 +43,7 @@ struct Mat4 {
             for (int j = 0; j < 4; j++) m[i][j] = (i == j) ? 1.0f : 0.0f;
     }
 
-    // Phép nhân ma trận [CG.4 - Slide 16]
+    // Phép nhân ma trận 
     Mat4 operator*(const Mat4& other) const {
         Mat4 res;
         for (int i = 0; i < 4; i++) {
@@ -56,21 +56,21 @@ struct Mat4 {
         return res;
     }
 
-    // [CG.4 - Slide 6] Ma trận Tịnh tiến
+    //Ma trận Tịnh tiến
     static Mat4 translate(const Vec3& v) {
         Mat4 res;
         res.m[3][0] = v.x; res.m[3][1] = v.y; res.m[3][2] = v.z;
         return res;
     }
 
-    // [CG.4 - Slide 9] Ma trận Tỉ lệ
+    //  Ma trận Tỉ lệ
     static Mat4 scale(const Vec3& v) {
         Mat4 res;
         res.m[0][0] = v.x; res.m[1][1] = v.y; res.m[2][2] = v.z;
         return res;
     }
 
-    // [CG.4 - Slide 12] Ma trận Quay quanh trục Y
+    //  Ma trận Quay quanh trục Y
     static Mat4 rotateY(float angle) {
         Mat4 res;
         float c = cos(angle);
@@ -80,7 +80,7 @@ struct Mat4 {
         return res;
     }
 
-    // [CG.4 - Slide 35] Phép chiếu phối cảnh (Perspective Projection)
+    //  Phép chiếu phối cảnh (Perspective Projection)
     static Mat4 perspective(float fov, float aspect, float near, float far) {
         Mat4 res;
         float tanHalfFov = tan(fov / 2.0f);
@@ -94,7 +94,7 @@ struct Mat4 {
         return res;
     }
 
-    // [CG.4 - Slide 31] Phép chiếu trực giao (Orthographic) cho Minimap
+    //  Phép chiếu trực giao (Orthographic) cho Minimap
     static Mat4 ortho(float left, float right, float bottom, float top, float near, float far) {
         Mat4 res;
         res.m[0][0] = 2.0f / (right - left);
@@ -106,7 +106,7 @@ struct Mat4 {
         return res;
     }
 
-    // [CG.4 - Slide 39] Quan sát đối tượng 3D (LookAt)
+    //  Quan sát đối tượng 3D (LookAt)
     static Mat4 lookAt(Vec3 eye, Vec3 center, Vec3 up) {
         Vec3 f = (center - eye).normalize(); // Forward
         Vec3 u = up.normalize();

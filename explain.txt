@@ -1,0 +1,172 @@
+PHÂN TÍCH LOGIC HOẠT ĐỘNG - ỨNG DỤNG 3D TERRAIN
+==================================================
+
+TỔNG QUAN KIẾN TRÚC
+-------------------
+Đây là một ứng dụng OpenGL/C++ hiển thị địa hình 3D với camera di chuyển tự do, hệ thống lighting, và minimap 2D để theo dõi đường đi.
+
+CÁC THÀNH PHẦN CHÍNH
+====================
+
+1. Math3D.h - Thư viện Toán học 3D
+-----------------------------------
+- Vec3: Vector 3 chiều với các phép toán cơ bản
+  + Các phép toán: cộng, trừ, nhân với scalar
+  + Dot product (tích vô hướng): dùng cho lighting
+  + Cross product (tích có hướng): dùng tính pháp tuyến
+  + Normalize: chuẩn hóa vector
+
+- Mat4: Ma trận 4x4 cho các phép biến đổi
+  + translate(): Tịnh tiến
+  + scale(): Tỉ lệ
+  + rotateY(): Quay quanh trục Y
+  + perspective(): Phép chiếu phối cảnh (3D → 2D)
+  + ortho(): Phép chiếu trực giao (cho minimap)
+  + lookAt(): Tạo view matrix từ camera
+
+2. Camera.h - Hệ thống Camera
+------------------------------
+- Quản lý vị trí, hướng nhìn (front), vector up
+- Yaw/Pitch: Góc quay điều khiển bằng chuột
+- processKeyboard(): Di chuyển camera theo WASD
+- processMouseMovement(): Quay camera theo chuột
+- getViewMatrix(): Tạo ma trận view từ vị trí và hướng camera
+
+3. Terrain.h - Tạo Địa hình
+----------------------------
+- Height Map Generation:
+  + Tạo lưới đỉnh với độ cao dựa trên hàm sin/cos
+  + Kết hợp nhiều tần số (multi-octave) để tạo địa hình tự nhiên:
+    * Tần số thấp: tạo đồi núi lớn
+    * Tần số trung bình: thêm chi tiết
+    * Tần số cao: thêm texture nhỏ
+
+- Tính Pháp tuyến (Normals):
+  + Mỗi ô lưới = 2 tam giác
+  + Tính normal từ tích có hướng của 2 cạnh tam giác
+  + Cộng dồn normal vào các đỉnh (Gouraud average)
+  + Chuẩn hóa để có smooth shading
+
+- Dữ liệu đỉnh: Mỗi đỉnh gồm (x, y, z, nx, ny, nz) - 6 float
+
+4. Shader.h - Quản lý Shader
+-----------------------------
+- Đọc file shader từ disk
+- Compile vertex và fragment shader
+- Link thành shader program
+- Gửi uniform (mat4, vec3, int) xuống GPU
+
+5. Algorithms2D.h - Thuật toán 2D
+----------------------------------
+- Bresenham Line: Vẽ đoạn thẳng trên minimap
+- Cohen-Sutherland Clipping: Cắt đường đi khi ra ngoài khung minimap
+
+LUỒNG HOẠT ĐỘNG CHÍNH (main.cpp)
+=================================
+
+KHỞI TẠO (dòng 94-139)
+----------------------
+1. Khởi tạo GLFW và OpenGL Context (OpenGL 3.3 Core)
+2. Bật Depth Test (Z-buffer) và Back-face Culling
+3. Tạo Shaders: terrainShader (3D) và uiShader (minimap)
+4. Tạo Terrain: Lưới 50x50
+5. Setup VAO/VBO/EBO:
+   - Location 0: Vị trí (3 float)
+   - Location 1: Pháp tuyến (3 float)
+
+VÒNG LẶP RENDER (dòng 148-299)
+-------------------------------
+
+A. XỬ LÝ INPUT (dòng 154)
+   - WASD: Di chuyển camera
+   - Chuột: Quay camera
+   - I/J/K/L/U/O: Di chuyển point light
+   - P: Toggle shading model (Lambert/Gouraud ↔ Phong)
+   - F: Toggle display mode (Wireframe ↔ Flat ↔ Smooth)
+
+B. RENDER 3D SCENE (dòng 156-198)
+   1. Xóa buffer: glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+   2. Tính ma trận:
+      - Model: Tịnh tiến terrain về giữa
+      - View: Từ camera
+      - Projection: Perspective (FOV 45°)
+   3. Gửi uniform:
+      - Ma trận (model, view, projection)
+      - Lighting (lightPos, viewPos, lightColor)
+      - Mode (shadingModel, displayMode)
+   4. Vẽ terrain:
+      - Wireframe: glPolygonMode(GL_LINE)
+      - Flat/Smooth: glPolygonMode(GL_FILL)
+      - glDrawElements(GL_TRIANGLES, ...)
+
+C. MINIMAP (dòng 200-295)
+   1. Cập nhật đường đi (dòng 203-221):
+      - Khi camera di chuyển > 0.5 đơn vị
+      - Map tọa độ 3D → 2D minimap (0-200)
+      - Cohen-Sutherland để cắt nếu ra ngoài
+      - Bresenham để lấy các điểm pixel
+      - Lưu vào pathTrace
+   2. Vẽ minimap (tắt Depth Test):
+      - Khung minimap: 4 đường thẳng trắng
+      - Đường đi: Các điểm đỏ từ pathTrace
+      - Marker camera: Hình tròn xanh lá (8 điểm)
+      - Hướng camera: Mũi tên cyan
+   3. Dùng orthographic projection cho UI
+
+SHADER PIPELINE
+===============
+
+Terrain Vertex Shader (terrain.vert)
+------------------------------------
+- Nhận: Vị trí, normal
+- Tính:
+  + FragPos: Vị trí trong world space
+  + gl_Position: Vị trí sau projection
+  + LightDir, ViewDir
+  + LightingColor: Ambient + Diffuse (cho Gouraud)
+
+Terrain Fragment Shader (terrain.frag)
+--------------------------------------
+- Display Mode:
+  + Wireframe: Không dùng (OpenGL tự vẽ)
+  + Flat (mode 1): Dùng FlatNormal (không nội suy), tính ambient + diffuse
+  + Smooth (mode 2): Dùng SmoothNormal (nội suy)
+- Shading Model (khi Smooth):
+  + 0 (Gouraud): Dùng LightingColor từ vertex shader
+  + 1 (Phong): Tính tại fragment (ambient + diffuse + specular)
+
+UI Shaders (ui.vert, ui.frag)
+------------------------------
+- Đơn giản: Nhận vị trí 2D, dùng orthographic projection, màu uniform
+
+CÁC KỸ THUẬT ĐỒ HỌA ĐƯỢC SỬ DỤNG
+=================================
+
+1. Z-Buffer (Depth Test): Xử lý độ sâu
+2. Back-face Culling: Loại bỏ mặt sau
+3. Pháp tuyến: Tính từ tích có hướng, cộng dồn cho Gouraud
+4. Lighting:
+   - Ambient: Ánh sáng môi trường
+   - Diffuse (Lambert): max(dot(normal, lightDir), 0)
+   - Specular (Phong): pow(max(dot(viewDir, reflectDir), 0), shininess)
+5. Shading:
+   - Flat: Mỗi tam giác một màu
+   - Gouraud: Nội suy màu từ đỉnh
+   - Phong: Nội suy normal, tính lighting tại fragment
+6. Minimap:
+   - Bresenham: Vẽ đường đi
+   - Cohen-Sutherland: Cắt đường đi
+
+ĐIỀU KHIỂN
+==========
+- WASD: Di chuyển camera
+- Chuột: Quay camera
+- I/J/K/L/U/O: Di chuyển point light
+- P: Toggle shading model
+- F: Toggle display mode
+- ESC: Thoát
+
+KẾT LUẬN
+=========
+Ứng dụng kết hợp modeling (terrain generation), rendering (shading, lighting), và UI (minimap) trong một pipeline OpenGL hoàn chỉnh.
+

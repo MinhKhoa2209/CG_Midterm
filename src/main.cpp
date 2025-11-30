@@ -98,7 +98,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "3D Terrain Explorer [CG Project]", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "3D Terrain ", NULL, NULL);
     if (window == NULL) { std::cout << "Failed to create GLFW window" << std::endl; glfwTerminate(); return -1; }
     glfwMakeContextCurrent(window);
     glfwSetCursorPosCallback(window, mouse_callback);
@@ -117,7 +117,7 @@ int main() {
     Shader terrainShader("assets/terrain.vert", "assets/terrain.frag");
     Shader uiShader("assets/ui.vert", "assets/ui.frag");
 
-    // 3. Tạo Địa hình (Modeling) [CG.pdf - Mục 2]
+    // 3. Tạo Địa hình (Modeling) 
     Terrain terrain(50, 50); // Lưới 50x50
     unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
@@ -182,9 +182,8 @@ int main() {
         
         // [CG.2] Chế độ hiển thị: Wireframe/Flat/Smooth
         if (displayMode == DISPLAY_WIREFRAME) {
-            // Wireframe mode - hiển thị khung dây
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            glLineWidth(1.5f);
+            glLineWidth(4.0f);
         } else {
             // Fill mode cho Flat và Smooth
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

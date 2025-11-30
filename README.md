@@ -1,4 +1,4 @@
-# 3D Terrain Explorer
+# 3D Terrain 
 
 ## 1. Giới thiệu
 - Ứng dụng mô phỏng địa hình 3D thời gian thực trên nền tảng OpenGL (C++, GLFW, GLAD)
@@ -59,12 +59,29 @@ mingw32-make
     - Marker camera (vòng tròn xanh), mũi tên chỉ hướng camera, khung minimap rõ ràng.
 - **Hiển thị Wireframe:** thấy cấu trúc mesh và từng tam giác tạo nên địa hình.
 
-## 6. Ý tưởng mở rộng & teamwork
-- Chia module theo chức năng (Math3D, Terrain, Camera...) → Dễ teamwork.
-- Có thể tách các thuật toán (Bresenham, Cohen-Sutherland) sang file riêng để thử nghiệm nhiều kiểu minimap/UI hoặc nâng cấp vẽ đường đi, hiển thị vật thể phụ trợ…
-- Mỗi feature chọn lệnh rõ ràng (F, P, IJKLUO), code dễ mở rộng cho các mode nâng cao về sau.
+## 6. Kỹ thuật đồ họa đã áp dụng
+- **Polygon Mesh Model**: Địa hình cấu trúc từ lưới tam giác (vertex/indices).
+- **Rendering Pipeline:**
+    - *Phong Shading*: Ánh sáng từng pixel (GLSL, specular highlight).
+    - *Gouraud/Lambert*: Ánh sáng từng đỉnh, nội suy màu qua tam giác.
+    - *Flat Shading*: Mỗi mặt một màu (GLSL `flat`).
+- **Ánh sáng - Lighting:**
+    - Thành phần *Ambient*, *Diffuse* (Lambert), *Specular* (Phong).
+    - Điều khiển nguồn sáng động (Point Light), thử nghiệm hiệu ứng chiếu sáng động.
+- **Các phép biến đổi ma trận:**
+    - Ma trận Model/View/Projection custom thuần C++ (Mat4), phép chiếu phối cảnh (Perspective), trực giao (Ortho).
+- **Camera/View:**
+    - Camera điều khiển theo góc nhìn (LookAt) bằng chuột, phím, tạo cảm giác tương tác thực.
+- **Culling & Z-Buffer:**
+    - *Back-face Culling*: Loại các mặt sau camera.
+    - *Z-Buffer*: Đảm bảo object gần che object xa.
+- **Wireframe Mode:** Xem trực tiếp lưới mesh với `glPolygonMode` và line width tùy chỉnh.
+- **Minimap & 2D Algorithms:**
+    - *Bresenham*: Vẽ đường đi camera trên minimap.
+    - *Cohen-Sutherland*: Clip đường đi ra khung minimap.
+    - Vẽ marker, mũi tên hướng nhìn camera, khung minimap dùng primitive OpenGL.
+- **Procedural Terrain:**
+    - Heightmap địa hình tạo động, phối nhiều hàm sóng, chi tiết tự nhiên.
+- **UI Overlay:**
+    - Vẽ 2D UI clear trên nền 3D thực, phân lớp không gian renderer.
 
----
-**Sinh viên: [Điền tên nhóm hoặc thành viên tại đây]**
-
-Liên hệ & đóng góp: [Điền github/email nếu muốn]

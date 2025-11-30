@@ -14,14 +14,14 @@ public:
         generateTerrain();
     }
 
-    // [CG.5 - Slide 25] Tạo lưới đa giác (Polygon Mesh)
-    // [CG.pdf - Mục 2] Input là heightMap (ở đây giả lập ngẫu nhiên)
+    //  Tạo lưới đa giác (Polygon Mesh)
+    //  Input là heightMap 
     void generateTerrain() {
-        // 1. Tạo đỉnh và độ cao - [CG.pdf - Mục 2] HeightMap
+        // 1. Tạo đỉnh và độ cao - HeightMap
         std::vector<Vec3> tempVertices;
         for (int z = 0; z < height; ++z) {
             for (int x = 0; x < width; ++x) {
-                // [CG.pdf] Cải thiện heightMap với nhiều tần số để tạo địa hình tự nhiên hơn
+                // Cải thiện heightMap với nhiều tần số để tạo địa hình tự nhiên hơn
                 float fx = (float)x / (float)width;
                 float fz = (float)z / (float)height;
                 

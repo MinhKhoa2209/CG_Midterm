@@ -39,7 +39,7 @@ void main() {
     
     if (shadingModel == 0) {
         // [CG.6] Gouraud Shading - màu được nội suy từ đỉnh (Lambert)
-        FragColor = vec4(LightingColor, 1.0);
+    FragColor = vec4(LightingColor, 1.0);
     } else {
         // [CG.6] Phong Shading Model - tính toán tại fragment
         vec3 norm = normalize(SmoothNormal); // Sử dụng smooth normal cho Smooth Shading
