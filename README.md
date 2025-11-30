@@ -1,0 +1,70 @@
+# 3D Terrain Explorer
+
+## 1. Giới thiệu
+- Ứng dụng mô phỏng địa hình 3D thời gian thực trên nền tảng OpenGL (C++, GLFW, GLAD)
+- Thể hiện lưới đa giác (polygon mesh) với các kỹ thuật tô bóng tiêu chuẩn (Gouraud/Lambert, Phong, Flat), hỗ trợ chuyển đổi trực tiếp giữa các chế độ hiển thị.
+- Cung cấp minimap (UI 2D) thể hiện đường đi của camera, khả năng khám phá/quản lý địa hình trực quan.
+
+## 2. Cấu trúc thư mục
+```
+├── assets/            # Chứa các file shader (GLSL)
+├── build/             # Tạo tự động (output binary, không có source code chính)
+├── include/           # Header file chia module: Math3D, Terrain, Camera, Algorithm...
+│   ├── GLFW/          # GLFW header
+│   └── glad/          # GLAD header
+├── lib/               # Thư viện ngoài (GLFW)
+├── src/               # Code nguồn C++ chính (main.cpp, glad.c)
+├── CMakeLists.txt     # Build project
+└── README.md          # File mô tả dự án
+```
+
+## 3. Hướng dẫn Build và Chạy
+- **Yêu cầu:**
+    - Windows, CMake >= 3.10
+    - Compiler: MinGW hoặc MSYS2 + MinGW-w64
+    - Thư viện: GLFW3 (lib/ và include/ sẵn)
+    - GLAD: `src/glad.c` và `include/glad/glad.h`
+- **Build:**
+```bash
+cmake -S . -B build -G "MinGW Makefiles"
+cd build
+mingw32-make
+```
+- **Chạy:**
+```bash
+./3DTerrain.exe
+```
+
+## 4. Điều khiển (Controls)
+- **Camera:**
+    - W/A/S/D: Tiến/Lùi/Trái/Phải
+    - Mouse: Quay góc nhìn
+    - ESC: Thoát
+- **Nguồn sáng (Point Light):**
+    - I/K: Di chuyển sáng theo trục Z (trước/sau)
+    - J/L: Di chuyển sang trái/phải theo trục X
+    - U/O: Lên/xuống theo trục Y
+- **Chuyển đổi shading:**
+    - P: Lambert/Gouraud (mặc định) ↔ Phong
+- **Chuyển đổi chế độ hiển thị:**
+    - F: Wireframe ⇄ Flat Shading ⇄ Smooth Shading
+
+## 5. Tính năng nổi bật
+- **Địa hình mô hình lưới đa giác 50x50:** tạo bởi heightmap multi-octave.
+- **Phong Shading và Flat Shading (full GLSL):** chuyển đổi trực tiếp, quan sát ảnh hưởng tới bề mặt mesh rõ ràng.
+- **Back-face Culling, Z-Buffer:** tối ưu hiệu năng, loại bỏ mặt sau/bị khuất.
+- **Điều khiển Point Light động:** có thể “di chuyển mặt trời” quan sát hiệu ứng chiều sáng và bóng.
+- **Minimap 2D trực tiếp:**
+    - Vẽ đường đi qua Bresenham/Cohen-Sutherland.
+    - Marker camera (vòng tròn xanh), mũi tên chỉ hướng camera, khung minimap rõ ràng.
+- **Hiển thị Wireframe:** thấy cấu trúc mesh và từng tam giác tạo nên địa hình.
+
+## 6. Ý tưởng mở rộng & teamwork
+- Chia module theo chức năng (Math3D, Terrain, Camera...) → Dễ teamwork.
+- Có thể tách các thuật toán (Bresenham, Cohen-Sutherland) sang file riêng để thử nghiệm nhiều kiểu minimap/UI hoặc nâng cấp vẽ đường đi, hiển thị vật thể phụ trợ…
+- Mỗi feature chọn lệnh rõ ràng (F, P, IJKLUO), code dễ mở rộng cho các mode nâng cao về sau.
+
+---
+**Sinh viên: [Điền tên nhóm hoặc thành viên tại đây]**
+
+Liên hệ & đóng góp: [Điền github/email nếu muốn]
