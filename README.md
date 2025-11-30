@@ -1,7 +1,7 @@
-# 3D Terrain 
+# 3D Terrain
 
 ## 1. Giới thiệu
-- Ứng dụng mô phỏng địa hình 3D thời gian thực trên nền tảng OpenGL (C++, GLFW, GLAD)
+- Ứng dụng mô phỏng địa hình 3D 
 - Thể hiện lưới đa giác (polygon mesh) với các kỹ thuật tô bóng tiêu chuẩn (Gouraud/Lambert, Phong, Flat), hỗ trợ chuyển đổi trực tiếp giữa các chế độ hiển thị.
 - Cung cấp minimap (UI 2D) thể hiện đường đi của camera, khả năng khám phá/quản lý địa hình trực quan.
 
