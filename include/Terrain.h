@@ -16,25 +16,57 @@ public:
         generateTerrain();
     }
 
-    //  Tạo lưới đa giác (Polygon Mesh)
-    //  Input là heightMap 
+    //  Tạo lưới đa giác (Polygon Mesh) - Đồi núi tròn, đỉnh mượt, đặt giữa biển
     void generateTerrain() {
         // 1. Tạo đỉnh và độ cao - HeightMap
         vector<Vec3> tempVertices;
+        
+        // Tâm của đồi núi (giữa terrain)
+        float centerX = (float)width / 2.0f;
+        float centerZ = (float)height / 2.0f;
+        float maxRadius = sqrt(centerX * centerX + centerZ * centerZ);
+        
         for (int z = 0; z < height; ++z) {
             for (int x = 0; x < width; ++x) {
-                // Cải thiện heightMap với nhiều tần số để tạo địa hình tự nhiên hơn
-                float fx = (float)x / (float)width;
-                float fz = (float)z / (float)height;
+                float fx = (float)x;
+                float fz = (float)z;
                 
-                // Kết hợp nhiều tần số (multi-octave) để tạo địa hình phức tạp
+                // Tính khoảng cách từ tâm (tạo hình đồi tròn)
+                float dx = fx - centerX;
+                float dz = fz - centerZ;
+                float dist = sqrt(dx * dx + dz * dz);
+                float normalizedDist = dist / maxRadius; // 0 ở tâm, 1 ở biên
+                
+                // Tạo đồi núi với đỉnh bo tròn mượt (không nhọn)
                 float y = 0.0f;
-                y += sin(fx * 3.14159f * 2.0f) * cos(fz * 3.14159f * 2.0f) * 3.0f; // Tần số thấp
-                y += sin(fx * 3.14159f * 4.0f) * cos(fz * 3.14159f * 4.0f) * 1.5f; // Tần số trung bình
-                y += sin(fx * 3.14159f * 8.0f) * cos(fz * 3.14159f * 8.0f) * 0.5f; // Tần số cao (chi tiết)
-                y += (sin(x * 0.15f) + cos(z * 0.15f)) * 1.0f; // Thêm biến đổi ngẫu nhiên
+                float hillHeight = 16.0f;
+                float hillRadius = maxRadius * 0.65f; // Bán kính đồi
                 
-                tempVertices.push_back(Vec3((float)x, y, (float)z));
+                if (dist < hillRadius) {
+                    // Dùng smoothstep để tạo đỉnh tròn mượt, không nhọn
+                    float t = dist / hillRadius; // 0 ở tâm, 1 ở rìa đồi
+                    // Smoothstep tạo đường cong mượt: 0 -> 1 mượt mà, không có góc nhọn
+                    float smoothFactor = t * t * (3.0f - 2.0f * t); // Smoothstep function
+                    y += hillHeight * (1.0f - smoothFactor); // Đỉnh cao ở tâm, thấp dần ra ngoài
+                }
+                
+                // Thêm các đỉnh núi phụ với đỉnh tròn
+                float noise1 = sin(fx * 0.25f) * cos(fz * 0.25f) * 1.8f;
+                float noise2 = sin(fx * 0.5f) * cos(fz * 0.5f) * 0.9f;
+                float noise3 = sin(fx * 1.0f) * cos(fz * 1.0f) * 0.4f;
+                
+                // Chỉ thêm noise ở vùng đồi (không thêm ở biên)
+                if (normalizedDist < 0.75f) {
+                    float noiseFactor = 1.0f - (normalizedDist / 0.75f);
+                    // Smoothstep cho noise để đỉnh phụ cũng tròn
+                    noiseFactor = noiseFactor * noiseFactor * (3.0f - 2.0f * noiseFactor);
+                    y += (noise1 + noise2 + noise3) * noiseFactor;
+                }
+                
+                // Đảm bảo không có vùng âm (nổi trên mặt nước)
+                y = max(y, 0.8f);
+                
+                tempVertices.push_back(Vec3(fx, y, fz));
             }
         }
 

@@ -16,8 +16,8 @@ using namespace std;
 const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
 
-// Camera
-Camera camera(Vec3(10.0f, 5.0f, 30.0f));
+// Camera - Đặt ở vị trí tốt để nhìn đồi núi giữa biển
+Camera camera(Vec3(15.0f, 8.0f, 35.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -51,23 +51,114 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 
 // Xử lý bàn phím
 void processInput(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    static bool escKeyPressed = false;
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS && !escKeyPressed) {
+        cout << "ESC: Thoat ung dung" << endl;
+        escKeyPressed = true;
         glfwSetWindowShouldClose(window, true);
+    }
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_RELEASE) {
+        escKeyPressed = false;
+    }
     
     // Camera movement
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) camera.processKeyboard(0, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) camera.processKeyboard(1, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) camera.processKeyboard(2, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) camera.processKeyboard(3, deltaTime);
+    static bool wKeyPressed = false, sKeyPressed = false, aKeyPressed = false, dKeyPressed = false;
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        if (!wKeyPressed) {
+            cout << "W: Di chuyen camera tien" << endl;
+            wKeyPressed = true;
+        }
+        camera.processKeyboard(0, deltaTime);
+    } else {
+        wKeyPressed = false;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        if (!sKeyPressed) {
+            cout << "S: Di chuyen camera lui" << endl;
+            sKeyPressed = true;
+        }
+        camera.processKeyboard(1, deltaTime);
+    } else {
+        sKeyPressed = false;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        if (!aKeyPressed) {
+            cout << "A: Di chuyen camera trai" << endl;
+            aKeyPressed = true;
+        }
+        camera.processKeyboard(2, deltaTime);
+    } else {
+        aKeyPressed = false;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        if (!dKeyPressed) {
+            cout << "D: Di chuyen camera phai" << endl;
+            dKeyPressed = true;
+        }
+        camera.processKeyboard(3, deltaTime);
+    } else {
+        dKeyPressed = false;
+    }
     
-    // [CG.6] Điều khiển Point Light (I/J/K/L)
+    // Điều khiển Point Light (I/J/K/L/U/O)
     float lightSpeed = 10.0f * deltaTime;
-    if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) lightPos.z -= lightSpeed; // Forward
-    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) lightPos.z += lightSpeed; // Backward
-    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) lightPos.x -= lightSpeed; // Left
-    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) lightPos.x += lightSpeed; // Right
-    if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) lightPos.y += lightSpeed; // Up
-    if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) lightPos.y -= lightSpeed; // Down
+    static bool iKeyPressed = false, jKeyPressed = false, kKeyPressed = false;
+    static bool lKeyPressed = false, uKeyPressed = false, oKeyPressed = false;
+    
+    if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
+        if (!iKeyPressed) {
+            cout << "I: Di chuyen light tien (Z-)" << endl;
+            iKeyPressed = true;
+        }
+        lightPos.z -= lightSpeed;
+    } else {
+        iKeyPressed = false;
+    }
+    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
+        if (!kKeyPressed) {
+            cout << "K: Di chuyen light lui (Z+)" << endl;
+            kKeyPressed = true;
+        }
+        lightPos.z += lightSpeed;
+    } else {
+        kKeyPressed = false;
+    }
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+        if (!jKeyPressed) {
+            cout << "J: Di chuyen light trai (X-)" << endl;
+            jKeyPressed = true;
+        }
+        lightPos.x -= lightSpeed;
+    } else {
+        jKeyPressed = false;
+    }
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
+        if (!lKeyPressed) {
+            cout << "L: Di chuyen light phai (X+)" << endl;
+            lKeyPressed = true;
+        }
+        lightPos.x += lightSpeed;
+    } else {
+        lKeyPressed = false;
+    }
+    if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
+        if (!uKeyPressed) {
+            cout << "U: Di chuyen light len (Y+)" << endl;
+            uKeyPressed = true;
+        }
+        lightPos.y += lightSpeed;
+    } else {
+        uKeyPressed = false;
+    }
+    if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
+        if (!oKeyPressed) {
+            cout << "O: Di chuyen light xuong (Y-)" << endl;
+            oKeyPressed = true;
+        }
+        lightPos.y -= lightSpeed;
+    } else {
+        oKeyPressed = false;
+    }
     
     // Toggle shading model (P key)
     static bool pKeyPressed = false;
@@ -85,7 +176,7 @@ void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS && !fKeyPressed) {
         displayMode = (DisplayMode)((displayMode + 1) % 3);
         fKeyPressed = true;
-        const char* modeNames[] = {"Wireframe (Khung day)", "Flat Shading (To bong hang)", "Smooth Shading (Gouraud/Phong)"};
+        const char* modeNames[] = {"Wireframe ", "Flat Shading", "Smooth Shading "};
         cout << "Display Mode: " << modeNames[displayMode] << endl;
     }
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_RELEASE) {
@@ -117,6 +208,7 @@ int main() {
 
     // 2. Tạo Shaders
     Shader terrainShader("assets/terrain.vert", "assets/terrain.frag");
+    Shader waterShader("assets/water.vert", "assets/water.frag");
     Shader uiShader("assets/ui.vert", "assets/ui.frag");
 
     // 3. Tạo Địa hình (Modeling) 
@@ -139,6 +231,30 @@ int main() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
+    // Setup cho Water Plane - giới hạn sát terrain
+    float waterSize = 26.0f; // Nửa cạnh (52x52, sát với terrain 50x50)
+    float waterVertices[] = {
+        -waterSize - 1.0f, 0.0f, -waterSize - 1.0f,
+         waterSize + 1.0f, 0.0f, -waterSize - 1.0f,
+         waterSize + 1.0f, 0.0f,  waterSize + 1.0f,
+        -waterSize - 1.0f, 0.0f,  waterSize + 1.0f
+    };
+    unsigned int waterIndices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+    unsigned int waterVAO, waterVBO, waterEBO;
+    glGenVertexArrays(1, &waterVAO);
+    glGenBuffers(1, &waterVBO);
+    glGenBuffers(1, &waterEBO);
+    glBindVertexArray(waterVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, waterVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(waterVertices), waterVertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, waterEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(waterIndices), waterIndices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
     // Setup cho Minimap (UI)
     unsigned int uiVAO, uiVBO;
     glGenVertexArrays(1, &uiVAO);
@@ -156,24 +272,44 @@ int main() {
         processInput(window);
 
         // --- A. RENDER 3D SCENE ---
-        // [CG.1 - Basic System] Xóa màn hình & Z-buffer
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        // Xóa màn hình với màu trời xanh
+        glClearColor(0.5f, 0.7f, 0.9f, 1.0f); // Màu trời xanh
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Bật blending cho nước trong suốt
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        // Tính ma trận chung
+        Mat4 view = camera.getViewMatrix();
+        Mat4 projection = Mat4::perspective(45.0f * PI / 180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 200.0f);
+        
+        // --- VẼ NƯỚC TRƯỚC (để terrain vẽ đè lên) ---
+        waterShader.use();
+        Mat4 waterModel = Mat4::translate(Vec3(-25.0f, 0.0f, -25.0f)); // Đặt nước ở y=0
+        waterShader.setMat4("model", waterModel);
+        waterShader.setMat4("view", view);
+        waterShader.setMat4("projection", projection);
+        waterShader.setVec3("viewPos", camera.position);
+        waterShader.setVec3("lightPos", lightPos);
+        waterShader.setVec3("lightColor", Vec3(1.0f, 1.0f, 1.0f));
+        waterShader.setFloat("time", (float)glfwGetTime());
+        glBindVertexArray(waterVAO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        
+        // --- VẼ TERRAIN ---
         terrainShader.use();
 
-        // [CG.4] Tạo các ma trận biến đổi (Model, View, Projection)
+        //  Tạo các ma trận biến đổi (Model, View, Projection)
         Mat4 model; // Identity
-        // Di chuyển địa hình ra giữa để dễ nhìn
-        model = Mat4::translate(Vec3(-25.0f, -5.0f, -25.0f)); 
-        Mat4 view = camera.getViewMatrix();
-        Mat4 projection = Mat4::perspective(45.0f * PI / 180.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        // Đặt terrain ở giữa, nổi trên mặt nước
+        model = Mat4::translate(Vec3(-25.0f, 0.0f, -25.0f));
 
         terrainShader.setMat4("model", model);
         terrainShader.setMat4("view", view);
         terrainShader.setMat4("projection", projection);
 
-        // [CG.6 - Slide 24] Lighting Properties - Point Light di chuyển được
+        // Lighting Properties - Point Light di chuyển được
         terrainShader.setVec3("lightPos", lightPos);
         terrainShader.setVec3("viewPos", camera.position);
         terrainShader.setVec3("lightColor", Vec3(1.0f, 1.0f, 1.0f));
@@ -182,7 +318,7 @@ int main() {
 
         glBindVertexArray(VAO);
         
-        // [CG.2] Chế độ hiển thị: Wireframe/Flat/Smooth
+        //  Chế độ hiển thị: Wireframe/Flat/Smooth
         if (displayMode == DISPLAY_WIREFRAME) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             glLineWidth(4.0f);
@@ -191,7 +327,7 @@ int main() {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
         
-        // Vẽ lưới tam giác [CG.2 - OpenGL Primitives]
+        // Vẽ lưới tam giác [ - OpenGL Primitives]
         glDrawElements(GL_TRIANGLES, terrain.indices.size(), GL_UNSIGNED_INT, 0);
         
         // Reset về fill mode sau khi vẽ (để không ảnh hưởng đến minimap)
@@ -199,8 +335,10 @@ int main() {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
 
-        // --- E. MINIMAP (2D) ---
-        // [CG.4] Phép chiếu trực giao cho Minimap
+        glDisable(GL_BLEND); // Tắt blending sau khi vẽ nước
+
+        // --- E. MINIMAP & UI (2D) ---
+        //  Phép chiếu trực giao cho Minimap
         // Cập nhật đường đi: Áp dụng Bresenham mỗi khi di chuyển đáng kể
         if (abs(camera.position.x - lastPos.x) > 0.5 || abs(camera.position.z - lastPos.z) > 0.5) {
             // Map tọa độ 3D (x, z) sang 2D minimap (0-200)
@@ -210,23 +348,28 @@ int main() {
             int x2 = (int)((camera.position.x + 25) * 4);
             int y2 = (int)((camera.position.z + 25) * 4);
             
-            // [CG.3 - Slide 60] Xén hình Cohen-Sutherland trước khi vẽ
+            //  Xén hình Cohen-Sutherland trước khi vẽ
             double dx1=x1, dy1=y1, dx2=x2, dy2=y2;
             bool visible = Algorithms2D::cohenSutherlandClip(dx1, dy1, dx2, dy2, 0, MINIMAP_SIZE, 0, MINIMAP_SIZE);
             
             if (visible) {
-                // [CG.3 - Slide 15] Bresenham để lấy các điểm ảnh
+                // Bresenham để lấy các điểm ảnh
                 vector<Vec3> newPoints = Algorithms2D::bresenhamLine((int)dx1, (int)dy1, (int)dx2, (int)dy2);
                 pathTrace.insert(pathTrace.end(), newPoints.begin(), newPoints.end());
             }
             lastPos = camera.position;
         }
 
-        // Vẽ Minimap - Tắt Depth Test để vẽ UI đè lên trên
+        // Vẽ Minimap & HUD - Tắt Depth Test để vẽ UI đè lên trên
         glDisable(GL_DEPTH_TEST); 
         uiShader.use();
         Mat4 ortho = Mat4::ortho(0.0f, (float)SCR_WIDTH, 0.0f, (float)SCR_HEIGHT, -1.0f, 1.0f);
         uiShader.setMat4("projection", ortho);
+        
+        glBindVertexArray(uiVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, uiVBO);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
         
         // Vị trí minimap: góc dưới bên phải
         float minimapX = SCR_WIDTH - MINIMAP_SIZE - 20.0f;
@@ -242,12 +385,7 @@ int main() {
         frame.push_back(Vec3(minimapX, minimapY + MINIMAP_SIZE, 0.0f));
         frame.push_back(Vec3(minimapX, minimapY + MINIMAP_SIZE, 0.0f));
         frame.push_back(Vec3(minimapX, minimapY, 0.0f));
-        
-        glBindVertexArray(uiVAO);
-        glBindBuffer(GL_ARRAY_BUFFER, uiVBO);
         glBufferData(GL_ARRAY_BUFFER, frame.size() * sizeof(Vec3), &frame[0], GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
         uiShader.setVec3("color", Vec3(1.0f, 1.0f, 1.0f)); // Màu trắng cho khung
         glLineWidth(2.0f);
         glDrawArrays(GL_LINES, 0, frame.size());
@@ -303,6 +441,9 @@ int main() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &waterVAO);
+    glDeleteBuffers(1, &waterVBO);
+    glDeleteBuffers(1, &waterEBO);
     glDeleteVertexArrays(1, &uiVAO);
     glDeleteBuffers(1, &uiVBO);
     glfwTerminate();

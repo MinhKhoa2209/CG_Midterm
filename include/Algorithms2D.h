@@ -5,7 +5,7 @@
 #include <vector>
 using namespace std;
 
-// Định nghĩa mã vùng cho Cohen-Sutherland [CG.3 - Slide 54]
+// Định nghĩa mã vùng cho Cohen-Sutherland 
 const int INSIDE = 0; // 0000
 const int LEFT = 1;   // 0001
 const int RIGHT = 2;  // 0010
@@ -14,7 +14,7 @@ const int TOP = 8;    // 1000
 
 class Algorithms2D {
 public:
-    // [CG.3 - Slide 13] Thuật toán Bresenham vẽ đoạn thẳng
+    //  Thuật toán Bresenham vẽ đoạn thẳng
     // Trả về danh sách các điểm (pixel) để vẽ lên Minimap
     static vector<Vec3> bresenhamLine(int x1, int y1, int x2, int y2) {
         vector<Vec3> points;
@@ -37,7 +37,7 @@ public:
         return points;
     }
 
-    // Hàm phụ trợ tính OutCode cho Cohen-Sutherland [CG.3 - Slide 56]
+    // Hàm phụ trợ tính OutCode cho Cohen-Sutherland 
     static int computeOutCode(double x, double y, double xmin, double xmax, double ymin, double ymax) {
         int code = INSIDE;
         if (x < xmin) code |= LEFT;
@@ -47,7 +47,7 @@ public:
         return code;
     }
 
-    // [CG.3 - Slide 60] Thuật toán Xén hình Cohen-Sutherland
+    //  Thuật toán Xén hình Cohen-Sutherland
     // Cắt đường đi của camera nếu nó ra khỏi khung Minimap
     static bool cohenSutherlandClip(double& x0, double& y0, double& x1, double& y1, 
                                     double xmin, double xmax, double ymin, double ymax) {
@@ -65,7 +65,7 @@ public:
                 double x, y;
                 int outcodeOut = outcode0 ? outcode0 : outcode1;
 
-                // Tìm giao điểm [CG.3 - Slide 59]
+                // Tìm giao điểm 
                 if (outcodeOut & TOP) {
                     x = x0 + (x1 - x0) * (ymax - y0) / (y1 - y0);
                     y = ymax;
