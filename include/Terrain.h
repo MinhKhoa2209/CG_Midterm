@@ -2,13 +2,15 @@
 #define TERRAIN_H
 
 #include <vector>
+using namespace std;
+
 #include "Math3D.h"
 
 class Terrain {
 public:
     int width, height;
-    std::vector<float> vertices; // Lưu x, y, z, nx, ny, nz (6 float/vertex)
-    std::vector<unsigned int> indices;
+    vector<float> vertices; // Lưu x, y, z, nx, ny, nz (6 float/vertex)
+    vector<unsigned int> indices;
 
     Terrain(int w, int h) : width(w), height(h) {
         generateTerrain();
@@ -18,7 +20,7 @@ public:
     //  Input là heightMap 
     void generateTerrain() {
         // 1. Tạo đỉnh và độ cao - HeightMap
-        std::vector<Vec3> tempVertices;
+        vector<Vec3> tempVertices;
         for (int z = 0; z < height; ++z) {
             for (int x = 0; x < width; ++x) {
                 // Cải thiện heightMap với nhiều tần số để tạo địa hình tự nhiên hơn
@@ -38,7 +40,7 @@ public:
 
         // 2. Tính pháp tuyến (Normals) cho Tô bóng Gouraud [CG.6 - Slide 29]
         // Mảng chứa tổng pháp tuyến cho mỗi đỉnh
-        std::vector<Vec3> tempNormals(tempVertices.size(), Vec3(0, 0, 0));
+        vector<Vec3> tempNormals(tempVertices.size(), Vec3(0, 0, 0));
 
         // Duyệt qua từng ô lưới (mỗi ô là 2 tam giác)
         for (int z = 0; z < height - 1; ++z) {

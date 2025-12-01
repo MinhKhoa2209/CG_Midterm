@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cmath>
 
+using namespace std;
+
 #include "Math3D.h"
 #include "Camera.h"
 #include "Terrain.h"
@@ -24,7 +26,7 @@ float lastFrame = 0.0f;
 
 // Minimap settings
 const int MINIMAP_SIZE = 200;
-std::vector<Vec3> pathTrace; // Lưu đường đi cho Bresenham
+vector<Vec3> pathTrace; // Lưu đường đi cho Bresenham
 
 // Lighting settings
 Vec3 lightPos(0.0f, 20.0f, 0.0f); // Point Light position (di chuyển được)
@@ -72,7 +74,7 @@ void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !pKeyPressed) {
         shadingModel = 1 - shadingModel; // Toggle between 0 and 1
         pKeyPressed = true;
-        std::cout << "Shading Model: " << (shadingModel == 0 ? "Lambert/Gouraud" : "Phong") << std::endl;
+        cout << "Shading Model: " << (shadingModel == 0 ? "Lambert/Gouraud" : "Phong") << endl;
     }
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE) {
         pKeyPressed = false;
@@ -83,8 +85,8 @@ void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS && !fKeyPressed) {
         displayMode = (DisplayMode)((displayMode + 1) % 3);
         fKeyPressed = true;
-        const char* modeNames[] = {"Wireframe (Khung dây)", "Flat Shading (Tô bóng hằng)", "Smooth Shading (Gouraud/Phong)"};
-        std::cout << "Display Mode: " << modeNames[displayMode] << std::endl;
+        const char* modeNames[] = {"Wireframe (Khung day)", "Flat Shading (To bong hang)", "Smooth Shading (Gouraud/Phong)"};
+        cout << "Display Mode: " << modeNames[displayMode] << endl;
     }
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_RELEASE) {
         fKeyPressed = false;
@@ -92,20 +94,20 @@ void processInput(GLFWwindow* window) {
 }
 
 int main() {
-    // 1. Khởi tạo GLFW & OpenGL Context
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "3D Terrain ", NULL, NULL);
-    if (window == NULL) { std::cout << "Failed to create GLFW window" << std::endl; glfwTerminate(); return -1; }
+    if (window == NULL) { cout << "Failed to create GLFW window" << endl; glfwTerminate(); return -1; }
     glfwMakeContextCurrent(window);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cout << "Failed to initialize GLAD" << std::endl; return -1;
+        cout << "Failed to initialize GLAD" << endl; return -1;
     }
 
     // [CG.6 - Slide 17] Bật Z-Buffer (Depth Test)
@@ -200,7 +202,7 @@ int main() {
         // --- E. MINIMAP (2D) ---
         // [CG.4] Phép chiếu trực giao cho Minimap
         // Cập nhật đường đi: Áp dụng Bresenham mỗi khi di chuyển đáng kể
-        if (std::abs(camera.position.x - lastPos.x) > 0.5 || std::abs(camera.position.z - lastPos.z) > 0.5) {
+        if (abs(camera.position.x - lastPos.x) > 0.5 || abs(camera.position.z - lastPos.z) > 0.5) {
             // Map tọa độ 3D (x, z) sang 2D minimap (0-200)
             // Địa hình rộng 50x50 map vào 200x200 pixel, offset để đặt ở góc dưới bên phải
             int x1 = (int)((lastPos.x + 25) * 4);
@@ -214,7 +216,7 @@ int main() {
             
             if (visible) {
                 // [CG.3 - Slide 15] Bresenham để lấy các điểm ảnh
-                std::vector<Vec3> newPoints = Algorithms2D::bresenhamLine((int)dx1, (int)dy1, (int)dx2, (int)dy2);
+                vector<Vec3> newPoints = Algorithms2D::bresenhamLine((int)dx1, (int)dy1, (int)dx2, (int)dy2);
                 pathTrace.insert(pathTrace.end(), newPoints.begin(), newPoints.end());
             }
             lastPos = camera.position;
@@ -231,7 +233,7 @@ int main() {
         float minimapY = 20.0f;
         
         // 1. Vẽ khung minimap (4 đường thẳng)
-        std::vector<Vec3> frame;
+        vector<Vec3> frame;
         frame.push_back(Vec3(minimapX, minimapY, 0.0f));
         frame.push_back(Vec3(minimapX + MINIMAP_SIZE, minimapY, 0.0f));
         frame.push_back(Vec3(minimapX + MINIMAP_SIZE, minimapY, 0.0f));
@@ -252,7 +254,7 @@ int main() {
         
         // 2. Vẽ đường đi (path trace) - offset vào trong khung
         if (!pathTrace.empty()) {
-            std::vector<Vec3> offsetPath;
+            vector<Vec3> offsetPath;
             for (const auto& pt : pathTrace) {
                 // Map từ (0-200) sang vị trí minimap
                 float x = minimapX + pt.x;
@@ -268,7 +270,7 @@ int main() {
         // 3. Vẽ marker cho vị trí camera hiện tại
         float camX = minimapX + (camera.position.x + 25.0f) * 4.0f;
         float camY = minimapY + (camera.position.z + 25.0f) * 4.0f;
-        std::vector<Vec3> cameraMarker;
+        vector<Vec3> cameraMarker;
         // Vẽ hình tròn nhỏ (8 điểm)
         for (int i = 0; i < 8; ++i) {
             float angle = i * 2.0f * PI / 8.0f;
@@ -283,7 +285,7 @@ int main() {
         
         // Vẽ hướng camera (mũi tên)
         Vec3 front2D = Vec3(camera.front.x, 0.0f, camera.front.z).normalize();
-        std::vector<Vec3> directionArrow;
+        vector<Vec3> directionArrow;
         directionArrow.push_back(Vec3(camX, camY, 0.0f));
         directionArrow.push_back(Vec3(camX + front2D.x * 8.0f, camY + front2D.z * 8.0f, 0.0f));
         glBufferData(GL_ARRAY_BUFFER, directionArrow.size() * sizeof(Vec3), &directionArrow[0], GL_STATIC_DRAW);

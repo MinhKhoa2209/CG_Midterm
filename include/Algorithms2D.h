@@ -3,6 +3,7 @@
 
 #include "Math3D.h"
 #include <vector>
+using namespace std;
 
 // Định nghĩa mã vùng cho Cohen-Sutherland [CG.3 - Slide 54]
 const int INSIDE = 0; // 0000
@@ -15,8 +16,8 @@ class Algorithms2D {
 public:
     // [CG.3 - Slide 13] Thuật toán Bresenham vẽ đoạn thẳng
     // Trả về danh sách các điểm (pixel) để vẽ lên Minimap
-    static std::vector<Vec3> bresenhamLine(int x1, int y1, int x2, int y2) {
-        std::vector<Vec3> points;
+    static vector<Vec3> bresenhamLine(int x1, int y1, int x2, int y2) {
+        vector<Vec3> points;
         int dx = abs(x2 - x1);
         int dy = abs(y2 - y1);
         int sx = (x1 < x2) ? 1 : -1;
