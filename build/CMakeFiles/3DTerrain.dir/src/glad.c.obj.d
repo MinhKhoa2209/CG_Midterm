@@ -1,5 +1,4 @@
-CMakeFiles/3DTerrain.dir/src/glad.c.obj: \
- C:\Users\minhk\Documents\3DTerrain\src\glad.c \
+CMakeFiles/3DTerrain.dir/src/glad.c.obj: D:\Project\3DTerrain\src\glad.c \
  C:/msys64/ucrt64/include/stdio.h \
  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
  C:/msys64/ucrt64/include/corecrt.h C:/msys64/ucrt64/include/_mingw.h \
@@ -20,7 +19,7 @@ CMakeFiles/3DTerrain.dir/src/glad.c.obj: \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
  C:/msys64/ucrt64/include/errno.h C:/msys64/ucrt64/include/string.h \
  C:/msys64/ucrt64/include/sec_api/string_s.h \
- C:/Users/minhk/Documents/3DTerrain/include/glad/glad.h \
+ D:/Project/3DTerrain/include/glad/glad.h \
  C:/msys64/ucrt64/include/KHR/khrplatform.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
  C:/msys64/ucrt64/include/stdint.h \

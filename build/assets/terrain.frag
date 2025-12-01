@@ -15,7 +15,30 @@ uniform int displayMode; // 0 = Wireframe, 1 = Flat, 2 = Smooth
 out vec4 FragColor;
 
 void main() {
-    vec3 objectColor = vec3(0.2, 0.5, 0.2);
+    // Màu sắc theo độ cao - tạo gradient tự nhiên cho đồi núi
+    float height = FragPos.y;
+    vec3 dirtColor = vec3(0.45, 0.37, 0.22);    // Đất nâu
+    vec3 grassColor = vec3(0.22, 0.53, 0.2);    // Xanh lá
+    vec3 rockColor = vec3(0.43, 0.39, 0.33);    // Đá xám
+    vec3 snowColor = vec3(0.93, 0.93, 0.98);    // Tuyết trắng
+    
+    vec3 objectColor;
+    if (height < 3.0) {
+        // Vùng thấp - đất và cỏ
+        float t = height / 3.0;
+        objectColor = mix(dirtColor, grassColor, t);
+    } else if (height < 8.0) {
+        // Vùng trung bình - cỏ và đá
+        float t = (height - 3.0) / 5.0;
+        objectColor = mix(grassColor, rockColor, t);
+    } else if (height < 13.0) {
+        // Vùng cao - đá
+        objectColor = rockColor;
+    } else {
+        // Đỉnh núi - tuyết
+        float t = clamp((height - 13.0) / 5.0, 0.0, 1.0);
+        objectColor = mix(rockColor, snowColor, t);
+    }
     
     if (displayMode == 1) {
         // [CG.6] Flat Shading - Tô bóng hằng (không nội suy)
@@ -39,7 +62,7 @@ void main() {
     
     if (shadingModel == 0) {
         // [CG.6] Gouraud Shading - màu được nội suy từ đỉnh (Lambert)
-        FragColor = vec4(LightingColor, 1.0);
+    FragColor = vec4(LightingColor, 1.0);
     } else {
         // [CG.6] Phong Shading Model - tính toán tại fragment
         vec3 norm = normalize(SmoothNormal); // Sử dụng smooth normal cho Smooth Shading

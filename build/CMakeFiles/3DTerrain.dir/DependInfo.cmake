@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/minhk/Documents/3DTerrain/src/glad.c" "CMakeFiles/3DTerrain.dir/src/glad.c.obj" "gcc" "CMakeFiles/3DTerrain.dir/src/glad.c.obj.d"
-  "C:/Users/minhk/Documents/3DTerrain/src/main.cpp" "CMakeFiles/3DTerrain.dir/src/main.cpp.obj" "gcc" "CMakeFiles/3DTerrain.dir/src/main.cpp.obj.d"
+  "D:/Project/3DTerrain/src/glad.c" "CMakeFiles/3DTerrain.dir/src/glad.c.obj" "gcc" "CMakeFiles/3DTerrain.dir/src/glad.c.obj.d"
+  "D:/Project/3DTerrain/src/main.cpp" "CMakeFiles/3DTerrain.dir/src/main.cpp.obj" "gcc" "CMakeFiles/3DTerrain.dir/src/main.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

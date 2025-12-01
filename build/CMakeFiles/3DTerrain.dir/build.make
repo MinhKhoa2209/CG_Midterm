@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\minhk\Documents\3DTerrain
+CMAKE_SOURCE_DIR = D:\Project\3DTerrain
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\minhk\Documents\3DTerrain\build
+CMAKE_BINARY_DIR = D:\Project\3DTerrain\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/3DTerrain.dir/depend.make
@@ -73,33 +73,33 @@ CMakeFiles/3DTerrain.dir/codegen:
 
 CMakeFiles/3DTerrain.dir/src/main.cpp.obj: CMakeFiles/3DTerrain.dir/flags.make
 CMakeFiles/3DTerrain.dir/src/main.cpp.obj: CMakeFiles/3DTerrain.dir/includes_CXX.rsp
-CMakeFiles/3DTerrain.dir/src/main.cpp.obj: C:/Users/minhk/Documents/3DTerrain/src/main.cpp
+CMakeFiles/3DTerrain.dir/src/main.cpp.obj: D:/Project/3DTerrain/src/main.cpp
 CMakeFiles/3DTerrain.dir/src/main.cpp.obj: CMakeFiles/3DTerrain.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\minhk\Documents\3DTerrain\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/3DTerrain.dir/src/main.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/3DTerrain.dir/src/main.cpp.obj -MF CMakeFiles\3DTerrain.dir\src\main.cpp.obj.d -o CMakeFiles\3DTerrain.dir\src\main.cpp.obj -c C:\Users\minhk\Documents\3DTerrain\src\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Project\3DTerrain\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/3DTerrain.dir/src/main.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/3DTerrain.dir/src/main.cpp.obj -MF CMakeFiles\3DTerrain.dir\src\main.cpp.obj.d -o CMakeFiles\3DTerrain.dir\src\main.cpp.obj -c D:\Project\3DTerrain\src\main.cpp
 
 CMakeFiles/3DTerrain.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/3DTerrain.dir/src/main.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\minhk\Documents\3DTerrain\src\main.cpp > CMakeFiles\3DTerrain.dir\src\main.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Project\3DTerrain\src\main.cpp > CMakeFiles\3DTerrain.dir\src\main.cpp.i
 
 CMakeFiles/3DTerrain.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/3DTerrain.dir/src/main.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\minhk\Documents\3DTerrain\src\main.cpp -o CMakeFiles\3DTerrain.dir\src\main.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Project\3DTerrain\src\main.cpp -o CMakeFiles\3DTerrain.dir\src\main.cpp.s
 
 CMakeFiles/3DTerrain.dir/src/glad.c.obj: CMakeFiles/3DTerrain.dir/flags.make
 CMakeFiles/3DTerrain.dir/src/glad.c.obj: CMakeFiles/3DTerrain.dir/includes_C.rsp
-CMakeFiles/3DTerrain.dir/src/glad.c.obj: C:/Users/minhk/Documents/3DTerrain/src/glad.c
+CMakeFiles/3DTerrain.dir/src/glad.c.obj: D:/Project/3DTerrain/src/glad.c
 CMakeFiles/3DTerrain.dir/src/glad.c.obj: CMakeFiles/3DTerrain.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\minhk\Documents\3DTerrain\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/3DTerrain.dir/src/glad.c.obj"
-	C:\msys64\ucrt64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/3DTerrain.dir/src/glad.c.obj -MF CMakeFiles\3DTerrain.dir\src\glad.c.obj.d -o CMakeFiles\3DTerrain.dir\src\glad.c.obj -c C:\Users\minhk\Documents\3DTerrain\src\glad.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Project\3DTerrain\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/3DTerrain.dir/src/glad.c.obj"
+	C:\msys64\ucrt64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/3DTerrain.dir/src/glad.c.obj -MF CMakeFiles\3DTerrain.dir\src\glad.c.obj.d -o CMakeFiles\3DTerrain.dir\src\glad.c.obj -c D:\Project\3DTerrain\src\glad.c
 
 CMakeFiles/3DTerrain.dir/src/glad.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/3DTerrain.dir/src/glad.c.i"
-	C:\msys64\ucrt64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\minhk\Documents\3DTerrain\src\glad.c > CMakeFiles\3DTerrain.dir\src\glad.c.i
+	C:\msys64\ucrt64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\Project\3DTerrain\src\glad.c > CMakeFiles\3DTerrain.dir\src\glad.c.i
 
 CMakeFiles/3DTerrain.dir/src/glad.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/3DTerrain.dir/src/glad.c.s"
-	C:\msys64\ucrt64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\minhk\Documents\3DTerrain\src\glad.c -o CMakeFiles\3DTerrain.dir\src\glad.c.s
+	C:\msys64\ucrt64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\Project\3DTerrain\src\glad.c -o CMakeFiles\3DTerrain.dir\src\glad.c.s
 
 # Object files for target 3DTerrain
 3DTerrain_OBJECTS = \
@@ -115,7 +115,7 @@ CMakeFiles/3DTerrain.dir/src/glad.c.s: cmake_force
 3DTerrain.exe: CMakeFiles/3DTerrain.dir/linkLibs.rsp
 3DTerrain.exe: CMakeFiles/3DTerrain.dir/objects1.rsp
 3DTerrain.exe: CMakeFiles/3DTerrain.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\minhk\Documents\3DTerrain\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable 3DTerrain.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Project\3DTerrain\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable 3DTerrain.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\3DTerrain.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -127,6 +127,6 @@ CMakeFiles/3DTerrain.dir/clean:
 .PHONY : CMakeFiles/3DTerrain.dir/clean
 
 CMakeFiles/3DTerrain.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\minhk\Documents\3DTerrain C:\Users\minhk\Documents\3DTerrain C:\Users\minhk\Documents\3DTerrain\build C:\Users\minhk\Documents\3DTerrain\build C:\Users\minhk\Documents\3DTerrain\build\CMakeFiles\3DTerrain.dir\DependInfo.cmake "--color=$(COLOR)" 3DTerrain
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Project\3DTerrain D:\Project\3DTerrain D:\Project\3DTerrain\build D:\Project\3DTerrain\build D:\Project\3DTerrain\build\CMakeFiles\3DTerrain.dir\DependInfo.cmake "--color=$(COLOR)" 3DTerrain
 .PHONY : CMakeFiles/3DTerrain.dir/depend
 

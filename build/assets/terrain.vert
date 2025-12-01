@@ -29,11 +29,11 @@ void main() {
     LightDir = normalize(lightPos - FragPos);
     ViewDir = normalize(viewPos - FragPos);
 
-    // [CG.6] Lambert Illumination (Diffuse) - cho Gouraud
+    //  Lambert Illumination (Diffuse) - cho Gouraud
     float diff = max(dot(SmoothNormal, LightDir), 0.0);
     vec3 diffuse = diff * lightColor;
 
-    // [CG.6] Ambient (Giả lập ánh sáng môi trường)
+    // Ambient (Giả lập ánh sáng môi trường)
     float ambientStrength = 0.15;
     vec3 ambient = ambientStrength * lightColor;
 
